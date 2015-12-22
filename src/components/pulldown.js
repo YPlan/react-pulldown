@@ -71,7 +71,9 @@ const Pulldown = React.createClass({
       currentStage: this._getStage(stageName),
       previousStage: this.state.currentStage,
     }, () => {
-      onChange(stageName);
+      if (onChange) {
+        onChange(stageName);
+      }
     });
   },
 

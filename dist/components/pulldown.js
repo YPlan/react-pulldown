@@ -82,7 +82,9 @@ var Pulldown = _react2.default.createClass({
       currentStage: this._getStage(stageName),
       previousStage: this.state.currentStage
     }, function () {
-      onChange(stageName);
+      if (onChange) {
+        onChange(stageName);
+      }
     });
   },
   _close: function _close() {
