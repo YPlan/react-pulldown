@@ -17,8 +17,8 @@ var PulldownStage = _react2.default.createClass({
     children: _react2.default.PropTypes.any,
     className: _react2.default.PropTypes.string,
     direction: _react2.default.PropTypes.string,
-    height: _react2.default.PropTypes.number,
-    name: _react2.default.PropTypes.string
+    height: _react2.default.PropTypes.number.isRequired,
+    name: _react2.default.PropTypes.string.isRequired
   },
 
   contextTypes: {
@@ -72,7 +72,7 @@ var PulldownStage = _react2.default.createClass({
     var children = this.props.children;
     var className = this.props.className;
 
-    if (this._isCurrentStage()) {
+    if (className && this._isCurrentStage()) {
       className += ' ' + className + '--active';
     }
 

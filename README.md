@@ -20,6 +20,8 @@ Demo
 Usage
 -----
 
+See the [API](/docs/API.md) section for details.
+
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';

@@ -5,7 +5,7 @@ const PulldownGoto = React.createClass({
   propTypes: {
     children: React.PropTypes.any,
     className: React.PropTypes.string,
-    stage: React.PropTypes.string,
+    stage: React.PropTypes.string.isRequired,
   },
 
   contextTypes: {

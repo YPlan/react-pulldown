@@ -16,7 +16,7 @@ var Pulldown = _react2.default.createClass({
   propTypes: {
     children: _react2.default.PropTypes.any,
     className: _react2.default.PropTypes.string,
-    defaultStage: _react2.default.PropTypes.string,
+    defaultStage: _react2.default.PropTypes.string.isRequired,
     delay: _react2.default.PropTypes.number,
     onChange: _react2.default.PropTypes.func,
     onClose: _react2.default.PropTypes.func,

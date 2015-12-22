@@ -39,6 +39,7 @@ describe('PulldownStage', () => {
         <FakeContext>
           <PulldownStage
             className="className"
+            height={100}
             name="currentStage"
           />
         </FakeContext>
@@ -128,6 +129,8 @@ describe('PulldownStage', () => {
         <FakeContext>
           <PulldownStage
             className="className"
+            height={100}
+            name="name"
           />
         </FakeContext>
       );

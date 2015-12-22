@@ -5,7 +5,7 @@ const Pulldown = React.createClass({
   propTypes: {
     children: React.PropTypes.any,
     className: React.PropTypes.string,
-    defaultStage: React.PropTypes.string,
+    defaultStage: React.PropTypes.string.isRequired,
     delay: React.PropTypes.number,
     onChange: React.PropTypes.func,
     onClose: React.PropTypes.func,

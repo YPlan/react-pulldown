@@ -6,8 +6,8 @@ const PulldownStage = React.createClass({
     children: React.PropTypes.any,
     className: React.PropTypes.string,
     direction: React.PropTypes.string,
-    height: React.PropTypes.number,
-    name: React.PropTypes.string,
+    height: React.PropTypes.number.isRequired,
+    name: React.PropTypes.string.isRequired,
   },
 
   contextTypes: {
@@ -62,7 +62,7 @@ const PulldownStage = React.createClass({
     const {children} = this.props;
     let {className} = this.props;
 
-    if (this._isCurrentStage()) {
+    if (className && this._isCurrentStage()) {
       className += ` ${className}--active`;
     }
 

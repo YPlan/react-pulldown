@@ -16,7 +16,7 @@ var PulldownGoto = _react2.default.createClass({
   propTypes: {
     children: _react2.default.PropTypes.any,
     className: _react2.default.PropTypes.string,
-    stage: _react2.default.PropTypes.string
+    stage: _react2.default.PropTypes.string.isRequired
   },
 
   contextTypes: {
