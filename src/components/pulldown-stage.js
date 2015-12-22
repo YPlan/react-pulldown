@@ -24,14 +24,13 @@ const PulldownStage = React.createClass({
 
   _getDirection() {
     const {currentStage, previousStage} = this.context;
-    const {name} = this.props;
-    let {direction} = this.props;
+    const {direction, name} = this.props;
 
     if (previousStage && previousStage.name === name) {
-      direction = currentStage.direction === 'top' ? 'bottom' : 'top';
+      this.direction = currentStage.direction === 'top' ? 'bottom' : 'top';
     }
 
-    return direction;
+    return this.direction || direction;
   },
 
   _getHeight() {

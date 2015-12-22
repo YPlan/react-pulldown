@@ -4,40 +4,168 @@ import {PulldownClose, PulldownGoto, PulldownStage, Pulldown} from '../dist';
 
 const App = React.createClass({
 
-  render() {
+  getInitialState() {
+    return {
+      closed: false,
+      countdown: 3,
+    };
+  },
+
+  componentDidMount() {
+    const interval = setInterval(() => {
+      const {countdown} = this.state;
+
+      if (countdown > 0) {
+        this.setState({
+          countdown: countdown - 1,
+        });
+      } else {
+        clearTimeout(interval);
+      }
+    }, 1000);
+  },
+
+  _handleClose() {
+    this.setState({
+      closed: true,
+    });
+  },
+
+  _renderCountdown() {
+    const {countdown} = this.state;
+
     return (
-      <Pulldown
-        className="demo"
-        defaultStage="a"
-        delay={1000}
-      >
+      <p className="countdown">
+        The pulldown will appear in
+        <span className="countdown__counter">
+          {countdown}s
+        </span>
+      </p>
+    );
+  },
 
-        <PulldownStage
-          height={100}
-          name="a"
-          position="top"
+  _renderCredits() {
+    return (
+      <div className="closed">
+        <a href="/">
+          Restart
+        </a>
+        <div className="divider" />
+        <a href="https://github.com/YPlan/react-pulldown">
+          Fork me on Github
+        </a>
+        <div className="divider" />
+        <p className="credits">
+          Made with ❤ by <a href="https://yplanapp.com">YPlan</a>
+        </p>
+      </div>
+    );
+  },
+
+  render() {
+    const {closed, countdown} = this.state;
+
+    return (
+      <div>
+        {countdown > 0 && this._renderCountdown()}
+        {closed && this._renderCredits()}
+
+        <Pulldown
+          className="pulldown"
+          defaultStage="a"
+          delay={3000}
+          onClose={this._handleClose}
         >
-          I'm the first stage
-          <PulldownGoto
-            stage="b"
+
+          <PulldownStage
+            className="pulldown__stage"
+            height={150}
+            name="a"
           >
-            Next
-          </PulldownGoto>
-        </PulldownStage>
+            <div>
+              The
+              <PulldownGoto
+                className="pulldown__button"
+                stage="b"
+              >
+                next
+              </PulldownGoto>
+              stage will come from the top
+            </div>
+          </PulldownStage>
 
-        <PulldownStage
-          className="stage-b"
-          height={200}
-          name="b"
-          position="top"
-        >
-          I'm the second stage
-          <PulldownClose>
-            Close
-          </PulldownClose>
-        </PulldownStage>
+          <PulldownStage
+            className="pulldown__stage"
+            direction="top"
+            height={150}
+            name="b"
+          >
+            <div>
+              The
+              <PulldownGoto
+                className="pulldown__button"
+                stage="c"
+              >
+                next
+              </PulldownGoto>
+              one from the bottom
+            </div>
+          </PulldownStage>
 
-      </Pulldown>
+          <PulldownStage
+            className="pulldown__stage"
+            direction="bottom"
+            height={150}
+            name="c"
+          >
+            <div>
+              The
+              <PulldownGoto
+                className="pulldown__button"
+                stage="d"
+              >
+                next
+              </PulldownGoto>
+              one is gonna be bigger
+            </div>
+          </PulldownStage>
+
+          <PulldownStage
+            className="pulldown__stage"
+            direction="top"
+            height={300}
+            name="d"
+          >
+            <div>
+              The
+              <PulldownGoto
+                className="pulldown__button"
+                stage="e"
+              >
+               last
+              </PulldownGoto>
+              one is smaller
+            </div>
+          </PulldownStage>
+
+          <PulldownStage
+            className="pulldown__stage"
+            direction="bottom"
+            height={75}
+            name="e"
+          >
+            <div>
+              See ya!
+              <PulldownClose
+                className="pulldown__button"
+              >
+                Close
+              </PulldownClose>
+            </div>
+          </PulldownStage>
+
+        </Pulldown>
+      </div>
     );
   },
 

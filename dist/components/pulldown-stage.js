@@ -36,14 +36,15 @@ var PulldownStage = _react2.default.createClass({
     var _context = this.context;
     var currentStage = _context.currentStage;
     var previousStage = _context.previousStage;
-    var name = this.props.name;
-    var direction = this.props.direction;
+    var _props = this.props;
+    var direction = _props.direction;
+    var name = _props.name;
 
     if (previousStage && previousStage.name === name) {
-      direction = currentStage.direction === 'top' ? 'bottom' : 'top';
+      this.direction = currentStage.direction === 'top' ? 'bottom' : 'top';
     }
 
-    return direction;
+    return this.direction || direction;
   },
   _getHeight: function _getHeight() {
     var currentStage = this.context.currentStage;

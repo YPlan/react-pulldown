@@ -38,7 +38,6 @@ const App = React.createClass({
         <PulldownStage
           height={100}
           name="a"
-          position="top"
         >
           First stage
           <PulldownGoto
@@ -49,10 +48,9 @@ const App = React.createClass({
         </PulldownStage>
 
         <PulldownStage
-          className="stage-b"
+          direction="top"
           height={200}
           name="b"
-          position="top"
         >
           Second stage
           <PulldownClose>
