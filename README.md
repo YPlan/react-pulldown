@@ -20,7 +20,7 @@ Demo
 Usage
 -----
 
-```javascript
+```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {PulldownClose, PulldownGoto, PulldownStage, Pulldown} from 'react-pulldown';
@@ -40,7 +40,7 @@ const App = React.createClass({
           name="a"
           position="top"
         >
-          I'm the first stage
+          First stage
           <PulldownGoto
             stage="b"
           >
@@ -54,7 +54,7 @@ const App = React.createClass({
           name="b"
           position="top"
         >
-          I'm the second stage
+          Second stage
           <PulldownClose>
             Close
           </PulldownClose>
