@@ -48,7 +48,7 @@ describe('Pulldown', () => {
     expect(onClose).toBeCalled();
   });
 
-  it('disappear when closed', () => {
+  it('disappears when closed', () => {
     pulldown._close();
     const element = TestUtils.findRenderedDOMComponentWithTag(pulldown, 'div');
 

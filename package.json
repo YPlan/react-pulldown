@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint ./src"
+    "lint": "eslint ./src",
+    "build": "babel ./src --out-dir ./dist"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   },
   "homepage": "https://github.com/YPlan/react-pulldown#readme",
   "devDependencies": {
+    "babel-cli": "^6.3.17",
     "babel-eslint": "^4.1.6",
     "babel-jest": "^6.0.1",
     "babel-preset-es2015": "^6.3.13",
