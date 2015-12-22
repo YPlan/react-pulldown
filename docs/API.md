@@ -8,7 +8,7 @@
 ## Pulldown
 
 | Name | Type | Required | Description |
-| ---- | ---- | -------- | ----------- |
+| ---- | ---- | :------: | ----------- |
 | className | string | | The class applied to the root element. |
 | defaultStage | string | x | The name of the first stage. |
 | delay | number | | The number of milliseconds to pass before the component appears. |
@@ -19,7 +19,7 @@
 ## PulldownStage
 
 | Name | Type | Required | Description |
-| ---- | ---- | -------- | ----------- |
+| ---- | ---- | :------: | ----------- |
 | className | string | | The class applied to the root element. |
 | direction | string | x | The direction from where the stage will appear. |
 | height | number | x | The height in pixels. |
@@ -28,12 +28,12 @@
 ## PulldownGoto
 
 | Name | Type | Required | Description |
-| ---- | ---- | -------- | ----------- |
+| ---- | ---- | :------: | ----------- |
 | className | string | | The class applied to the root element. |
 | name | string | x | The destination stage. |
 
 ## PulldownClose
 
 | Name | Type | Required | Description |
-| ---- | ---- | -------- | ----------- |
+| ---- | ---- | :------: | ----------- |
 | className | string | | The class applied to the root element. |
