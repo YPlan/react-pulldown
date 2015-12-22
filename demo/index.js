@@ -46,16 +46,16 @@ const App = React.createClass({
 
   _renderCredits() {
     return (
-      <div className="closed">
+      <div className="credits">
         <a href="/">
           Restart
         </a>
-        <div className="divider" />
+        <div className="credits__divider" />
         <a href="https://github.com/YPlan/react-pulldown">
           Fork me on Github
         </a>
-        <div className="divider" />
-        <p className="credits">
+        <div className="credits__divider" />
+        <p className="credits__author">
           Made with ❤ by <a href="https://yplanapp.com">YPlan</a>
         </p>
       </div>

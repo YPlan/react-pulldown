@@ -53,6 +53,7 @@ describe('PulldownStage', function () {
         null,
         _react2.default.createElement(PulldownStage, {
           className: 'className',
+          height: 100,
           name: 'currentStage'
         })
       ));
@@ -141,7 +142,9 @@ describe('PulldownStage', function () {
         FakeContext,
         null,
         _react2.default.createElement(PulldownStage, {
-          className: 'className'
+          className: 'className',
+          height: 100,
+          name: 'name'
         })
       ));
     });
