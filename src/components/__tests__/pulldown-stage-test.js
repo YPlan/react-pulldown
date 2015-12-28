@@ -1,3 +1,6 @@
+/* eslint react/no-multi-comp:0 */
+
+jest.dontMock('shallowequal');
 jest.dontMock('../pulldown-stage');
 
 import React from 'react';
@@ -13,6 +16,7 @@ function createFakeContext(childContext) {
     childContextTypes: {
       currentStage: React.PropTypes.object,
       previousStage: React.PropTypes.object,
+      update: React.PropTypes.func,
     },
     getChildContext() {
       return childContext;
@@ -244,6 +248,79 @@ describe('PulldownStage', () => {
       const element = TestUtils.scryRenderedDOMComponentsWithTag(pulldownStage, 'div')[1];
 
       expect(element.style.top).toBe('100px');
+    });
+  });
+
+  describe('update', () => {
+    function createParent(childContext) {
+      FakeContext = createFakeContext(childContext);
+      return React.createClass({
+        getInitialState() {
+          return {
+            height: 100,
+          };
+        },
+        render() {
+          const {height} = this.state;
+          return (
+            <FakeContext>
+              <PulldownStage
+                height={height}
+                name="a"
+              />
+            </FakeContext>
+          );
+        },
+      });
+    }
+
+    it('fires the callback if is current and props change', () => {
+      const update = jest.genMockFunction();
+      const Parent = createParent({
+        currentStage: {
+          name: 'a',
+        },
+        update,
+      });
+      const parent = TestUtils.renderIntoDocument(<Parent />);
+      parent.setState({
+        height: 200,
+      });
+
+      expect(update).toBeCalled();
+    });
+
+    it('does not fire the callback if is current and props do not change', () => {
+      const update = jest.genMockFunction();
+      const Parent = createParent({
+        currentStage: {
+          name: 'a',
+        },
+        update,
+      });
+      const parent = TestUtils.renderIntoDocument(<Parent />);
+      parent.setState({
+        height: 100,
+      });
+
+      expect(update).not.toBeCalled();
+    });
+
+    it('does not fire the callback if is not current', () => {
+      const update = jest.genMockFunction();
+      const Parent = createParent({
+        currentStage: {
+          name: 'b',
+          height: 100,
+        },
+        update,
+      });
+      const parent = TestUtils.renderIntoDocument(<Parent />);
+      parent.setState({
+        height: 200,
+      });
+
+      expect(update).not.toBeCalled();
     });
   });
 });

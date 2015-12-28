@@ -1,4 +1,5 @@
 import React from 'react';
+import shallowequal from 'shallowequal';
 
 const PulldownStage = React.createClass({
 
@@ -13,6 +14,15 @@ const PulldownStage = React.createClass({
   contextTypes: {
     currentStage: React.PropTypes.object,
     previousStage: React.PropTypes.object,
+    update: React.PropTypes.func,
+  },
+
+  componentDidUpdate(prevProps) {
+    const {update} = this.context;
+
+    if (this._isCurrentStage() && !shallowequal(prevProps, this.props)) {
+      update();
+    }
   },
 
   _isCurrentStage() {

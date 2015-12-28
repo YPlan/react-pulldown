@@ -17,6 +17,7 @@ const Pulldown = React.createClass({
     currentStage: React.PropTypes.object,
     goTo: React.PropTypes.func,
     previousStage: React.PropTypes.object,
+    update: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -48,6 +49,7 @@ const Pulldown = React.createClass({
       currentStage: currentStage,
       goTo: this._goTo,
       previousStage: previousStage,
+      update: this._update,
     };
   },
 
@@ -91,6 +93,14 @@ const Pulldown = React.createClass({
     this.setState({
       open: true,
     }, onOpen);
+  },
+
+  _update() {
+    const {currentStage} = this.state;
+
+    this.setState({
+      currentStage: this._getStage(currentStage.name),
+    });
   },
 
   _getStyle() {
