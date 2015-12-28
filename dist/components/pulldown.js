@@ -27,7 +27,8 @@ var Pulldown = _react2.default.createClass({
     close: _react2.default.PropTypes.func,
     currentStage: _react2.default.PropTypes.object,
     goTo: _react2.default.PropTypes.func,
-    previousStage: _react2.default.PropTypes.object
+    previousStage: _react2.default.PropTypes.object,
+    update: _react2.default.PropTypes.func
   },
 
   getInitialState: function getInitialState() {
@@ -59,7 +60,8 @@ var Pulldown = _react2.default.createClass({
       close: this._close,
       currentStage: currentStage,
       goTo: this._goTo,
-      previousStage: previousStage
+      previousStage: previousStage,
+      update: this._update
     };
   },
   _getStage: function _getStage(stageName) {
@@ -100,6 +102,13 @@ var Pulldown = _react2.default.createClass({
     this.setState({
       open: true
     }, onOpen);
+  },
+  _update: function _update() {
+    var currentStage = this.state.currentStage;
+
+    this.setState({
+      currentStage: this._getStage(currentStage.name)
+    });
   },
   _getStyle: function _getStyle() {
     var _state2 = this.state;

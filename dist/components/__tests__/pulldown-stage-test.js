@@ -10,6 +10,9 @@ var _reactAddonsTestUtils2 = _interopRequireDefault(_reactAddonsTestUtils);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint react/no-multi-comp:0 */
+
+jest.dontMock('shallowequal');
 jest.dontMock('../pulldown-stage');
 
 var PulldownStage = require('../pulldown-stage').default;
@@ -21,7 +24,8 @@ function createFakeContext(childContext) {
     },
     childContextTypes: {
       currentStage: _react2.default.PropTypes.object,
-      previousStage: _react2.default.PropTypes.object
+      previousStage: _react2.default.PropTypes.object,
+      update: _react2.default.PropTypes.func
     },
     getChildContext: function getChildContext() {
       return childContext;
@@ -257,6 +261,80 @@ describe('PulldownStage', function () {
       var element = _reactAddonsTestUtils2.default.scryRenderedDOMComponentsWithTag(pulldownStage, 'div')[1];
 
       expect(element.style.top).toBe('100px');
+    });
+  });
+
+  describe('update', function () {
+    function createParent(childContext) {
+      FakeContext = createFakeContext(childContext);
+      return _react2.default.createClass({
+        getInitialState: function getInitialState() {
+          return {
+            height: 100
+          };
+        },
+        render: function render() {
+          var height = this.state.height;
+
+          return _react2.default.createElement(
+            FakeContext,
+            null,
+            _react2.default.createElement(PulldownStage, {
+              height: height,
+              name: 'a'
+            })
+          );
+        }
+      });
+    }
+
+    it('fires the callback if is current and props change', function () {
+      var update = jest.genMockFunction();
+      var Parent = createParent({
+        currentStage: {
+          name: 'a'
+        },
+        update: update
+      });
+      var parent = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(Parent, null));
+      parent.setState({
+        height: 200
+      });
+
+      expect(update).toBeCalled();
+    });
+
+    it('does not fire the callback if is current and props do not change', function () {
+      var update = jest.genMockFunction();
+      var Parent = createParent({
+        currentStage: {
+          name: 'a'
+        },
+        update: update
+      });
+      var parent = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(Parent, null));
+      parent.setState({
+        height: 100
+      });
+
+      expect(update).not.toBeCalled();
+    });
+
+    it('does not fire the callback if is not current', function () {
+      var update = jest.genMockFunction();
+      var Parent = createParent({
+        currentStage: {
+          name: 'b',
+          height: 100
+        },
+        update: update
+      });
+      var parent = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(Parent, null));
+      parent.setState({
+        height: 200
+      });
+
+      expect(update).not.toBeCalled();
     });
   });
 });

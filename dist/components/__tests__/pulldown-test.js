@@ -17,10 +17,11 @@ var PulldownStage = require('../pulldown-stage').default;
 
 describe('Pulldown', function () {
   var className = 'className';
+  var defaultStageName = 'a';
+  var nextStageName = 'b';
   var onChange = jest.genMockFunction();
   var onClose = jest.genMockFunction();
   var onOpen = jest.genMockFunction();
-  var stageName = 'b';
   var pulldown = undefined;
 
   beforeEach(function () {
@@ -28,14 +29,14 @@ describe('Pulldown', function () {
       Pulldown,
       {
         className: className,
-        defaultStage: 'a',
+        defaultStage: defaultStageName,
         delay: 1000,
         onChange: onChange,
         onClose: onClose,
         onOpen: onOpen
       },
-      _react2.default.createElement(PulldownStage, { name: 'a' }),
-      _react2.default.createElement(PulldownStage, { name: stageName })
+      _react2.default.createElement(PulldownStage, { height: 100, name: defaultStageName }),
+      _react2.default.createElement(PulldownStage, { name: nextStageName })
     ));
   });
 
@@ -45,10 +46,20 @@ describe('Pulldown', function () {
     expect(element.className).toBe(className);
   });
 
-  it('fires the onChange callback', function () {
-    pulldown._goTo(stageName);
+  it('sets the current stage object', function () {
+    expect(pulldown.state.currentStage.name).toBe(defaultStageName);
+  });
 
-    expect(onChange).toBeCalledWith(stageName);
+  it('sets its height according to the current stage height', function () {
+    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+    expect(element.style.height).toBe('100px');
+  });
+
+  it('fires the onChange callback', function () {
+    pulldown._goTo(nextStageName);
+
+    expect(onChange).toBeCalledWith(nextStageName);
   });
 
   it('fires the onClose callback', function () {

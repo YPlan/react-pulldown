@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _shallowequal = require('shallowequal');
+
+var _shallowequal2 = _interopRequireDefault(_shallowequal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var PulldownStage = _react2.default.createClass({
@@ -23,9 +27,17 @@ var PulldownStage = _react2.default.createClass({
 
   contextTypes: {
     currentStage: _react2.default.PropTypes.object,
-    previousStage: _react2.default.PropTypes.object
+    previousStage: _react2.default.PropTypes.object,
+    update: _react2.default.PropTypes.func
   },
 
+  componentDidUpdate: function componentDidUpdate(prevProps) {
+    var update = this.context.update;
+
+    if (this._isCurrentStage() && !(0, _shallowequal2.default)(prevProps, this.props)) {
+      update();
+    }
+  },
   _isCurrentStage: function _isCurrentStage() {
     var currentStage = this.context.currentStage;
     var name = this.props.name;
