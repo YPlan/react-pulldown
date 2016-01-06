@@ -75,6 +75,13 @@ describe('Pulldown', function () {
     expect(element.style.top).toBe('-100%');
   });
 
+  it('does not apply the open modifier when closed', function () {
+    pulldown._close();
+    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+    expect(element.className).not.toContain(className + '--open');
+  });
+
   it('fires the onOpen callback', function () {
     jest.runAllTimers();
 
@@ -86,6 +93,13 @@ describe('Pulldown', function () {
     var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
 
     expect(element.style.top).toBe('0px');
+  });
+
+  it('applies the open modifier when open', function () {
+    jest.runAllTimers();
+    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+    expect(element.className).toContain(className + '--open');
   });
 
   it('waits for the delay to appear', function () {

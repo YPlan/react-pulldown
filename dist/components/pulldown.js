@@ -126,9 +126,13 @@ var Pulldown = _react2.default.createClass({
     };
   },
   render: function render() {
-    var _props2 = this.props;
-    var children = _props2.children;
-    var className = _props2.className;
+    var children = this.props.children;
+    var className = this.props.className;
+    var open = this.state.open;
+
+    if (className && open) {
+      className += ' ' + className + '--open';
+    }
 
     return _react2.default.createElement(
       'div',
