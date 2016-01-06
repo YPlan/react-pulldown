@@ -7,6 +7,7 @@ const Pulldown = React.createClass({
     className: React.PropTypes.string,
     defaultStage: React.PropTypes.string.isRequired,
     delay: React.PropTypes.number,
+    fixed: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     onClose: React.PropTypes.func,
     onOpen: React.PropTypes.func,
@@ -105,15 +106,29 @@ const Pulldown = React.createClass({
 
   _getStyle() {
     const {currentStage, open} = this.state;
+    const {fixed} = this.props;
+    let style;
+
+    if (fixed) {
+      style = {
+        height: currentStage.height,
+        position: 'fixed',
+        top: open ? 0 : '-100%',
+        zIndex: 999,
+      };
+    } else {
+      style = {
+        height: currentStage.height,
+        marginTop: open ? 0 : `${-currentStage.height}px`,
+        position: 'relative',
+      };
+    }
 
     return {
-      height: currentStage.height,
       overflow: 'hidden',
-      position: 'fixed',
-      top: open ? 0 : '-100%',
       transition: 'all 500ms',
       width: '100%',
-      zIndex: 999,
+      ...style,
     };
   },
 
