@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,6 +20,7 @@ var Pulldown = _react2.default.createClass({
     className: _react2.default.PropTypes.string,
     defaultStage: _react2.default.PropTypes.string.isRequired,
     delay: _react2.default.PropTypes.number,
+    fixed: _react2.default.PropTypes.bool,
     onChange: _react2.default.PropTypes.func,
     onClose: _react2.default.PropTypes.func,
     onOpen: _react2.default.PropTypes.func
@@ -114,16 +117,30 @@ var Pulldown = _react2.default.createClass({
     var _state2 = this.state;
     var currentStage = _state2.currentStage;
     var open = _state2.open;
+    var fixed = this.props.fixed;
 
-    return {
-      height: currentStage.height,
+    var style = undefined;
+
+    if (fixed) {
+      style = {
+        height: currentStage.height,
+        position: 'fixed',
+        top: open ? 0 : '-100%',
+        zIndex: 999
+      };
+    } else {
+      style = {
+        height: currentStage.height,
+        marginTop: open ? 0 : -currentStage.height + 'px',
+        position: 'relative'
+      };
+    }
+
+    return _extends({
       overflow: 'hidden',
-      position: 'fixed',
-      top: open ? 0 : '-100%',
       transition: 'all 500ms',
-      width: '100%',
-      zIndex: 999
-    };
+      width: '100%'
+    }, style);
   },
   render: function render() {
     var children = this.props.children;

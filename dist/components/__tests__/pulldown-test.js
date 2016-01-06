@@ -18,95 +18,135 @@ var PulldownStage = require('../pulldown-stage').default;
 describe('Pulldown', function () {
   var className = 'className';
   var defaultStageName = 'a';
+  var delay = 1000;
+  var height = 100;
   var nextStageName = 'b';
   var onChange = jest.genMockFunction();
   var onClose = jest.genMockFunction();
   var onOpen = jest.genMockFunction();
   var pulldown = undefined;
 
-  beforeEach(function () {
-    pulldown = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(
-      Pulldown,
-      {
-        className: className,
-        defaultStage: defaultStageName,
-        delay: 1000,
-        onChange: onChange,
-        onClose: onClose,
-        onOpen: onOpen
-      },
-      _react2.default.createElement(PulldownStage, { height: 100, name: defaultStageName }),
-      _react2.default.createElement(PulldownStage, { name: nextStageName })
-    ));
+  describe('default', function () {
+    beforeEach(function () {
+      pulldown = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(
+        Pulldown,
+        {
+          className: className,
+          defaultStage: defaultStageName,
+          delay: delay,
+          onChange: onChange,
+          onClose: onClose,
+          onOpen: onOpen
+        },
+        _react2.default.createElement(PulldownStage, { height: height, name: defaultStageName }),
+        _react2.default.createElement(PulldownStage, { name: nextStageName })
+      ));
+    });
+
+    it('applies the class name', function () {
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.className).toBe(className);
+    });
+
+    it('sets the current stage object', function () {
+      expect(pulldown.state.currentStage.name).toBe(defaultStageName);
+    });
+
+    it('sets its height according to the current stage height', function () {
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.style.height).toBe(height + 'px');
+    });
+
+    it('fires the onChange callback', function () {
+      pulldown._goTo(nextStageName);
+
+      expect(onChange).toBeCalledWith(nextStageName);
+    });
+
+    it('fires the onClose callback', function () {
+      pulldown._close();
+
+      expect(onClose).toBeCalled();
+    });
+
+    it('disappears when closed', function () {
+      pulldown._close();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.style.marginTop).toBe('-' + height + 'px');
+    });
+
+    it('does not apply the open modifier when closed', function () {
+      pulldown._close();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.className).not.toContain(className + '--open');
+    });
+
+    it('fires the onOpen callback', function () {
+      jest.runAllTimers();
+
+      expect(onOpen).toBeCalled();
+    });
+
+    it('appears when open', function () {
+      jest.runAllTimers();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.style.marginTop).toBe('0');
+    });
+
+    it('applies the open modifier when open', function () {
+      jest.runAllTimers();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+
+      expect(element.className).toContain(className + '--open');
+    });
+
+    it('waits for the delay to appear', function () {
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+      expect(element.style.marginTop).toBe('-' + height + 'px');
+
+      jest.runAllTimers();
+      expect(element.style.marginTop).toBe('0');
+    });
   });
 
-  it('applies the class name', function () {
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+  describe('fixed', function () {
+    beforeEach(function () {
+      pulldown = _reactAddonsTestUtils2.default.renderIntoDocument(_react2.default.createElement(
+        Pulldown,
+        {
+          defaultStage: defaultStageName,
+          delay: delay,
+          fixed: true
+        },
+        _react2.default.createElement(PulldownStage, { height: height, name: defaultStageName })
+      ));
+    });
 
-    expect(element.className).toBe(className);
-  });
+    it('disappears when closed', function () {
+      pulldown._close();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
 
-  it('sets the current stage object', function () {
-    expect(pulldown.state.currentStage.name).toBe(defaultStageName);
-  });
+      expect(element.style.top).toBe('-100%');
+    });
 
-  it('sets its height according to the current stage height', function () {
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+    it('appears when open', function () {
+      jest.runAllTimers();
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
 
-    expect(element.style.height).toBe('100px');
-  });
+      expect(element.style.top).toBe('0px');
+    });
 
-  it('fires the onChange callback', function () {
-    pulldown._goTo(nextStageName);
+    it('waits for the delay to appear', function () {
+      var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
+      expect(element.style.top).toBe('-100%');
 
-    expect(onChange).toBeCalledWith(nextStageName);
-  });
-
-  it('fires the onClose callback', function () {
-    pulldown._close();
-
-    expect(onClose).toBeCalled();
-  });
-
-  it('disappears when closed', function () {
-    pulldown._close();
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
-
-    expect(element.style.top).toBe('-100%');
-  });
-
-  it('does not apply the open modifier when closed', function () {
-    pulldown._close();
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
-
-    expect(element.className).not.toContain(className + '--open');
-  });
-
-  it('fires the onOpen callback', function () {
-    jest.runAllTimers();
-
-    expect(onOpen).toBeCalled();
-  });
-
-  it('appears when open', function () {
-    jest.runAllTimers();
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
-
-    expect(element.style.top).toBe('0px');
-  });
-
-  it('applies the open modifier when open', function () {
-    jest.runAllTimers();
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
-
-    expect(element.className).toContain(className + '--open');
-  });
-
-  it('waits for the delay to appear', function () {
-    var element = _reactAddonsTestUtils2.default.findRenderedDOMComponentWithTag(pulldown, 'div');
-    expect(element.style.top).toBe('-100%');
-
-    jest.runAllTimers();
-    expect(element.style.top).toBe('0px');
+      jest.runAllTimers();
+      expect(element.style.top).toBe('0px');
+    });
   });
 });

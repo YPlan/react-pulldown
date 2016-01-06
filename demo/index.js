@@ -74,6 +74,7 @@ const App = React.createClass({
           className="pulldown"
           defaultStage="a"
           delay={3000}
+          fixed
           onClose={this._handleClose}
         >
 

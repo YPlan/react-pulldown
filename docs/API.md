@@ -12,6 +12,7 @@
 | className | string | | The class applied to the root element. |
 | defaultStage | string | x | The name of the first stage. |
 | delay | number | | The number of milliseconds to pass before the component appears. |
+| fixed | bool | | The style of the root element. |
 | onChange | func | | The callback fired everytime the current stage changes. |
 | onClose | func | | The callback fired when the pulldown closes. |
 | onOpen | func | | The callback fired when the pulldown opens. |
