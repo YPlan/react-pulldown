@@ -118,7 +118,13 @@ const Pulldown = React.createClass({
   },
 
   render() {
-    const {children, className} = this.props;
+    const {children} = this.props;
+    let {className} = this.props;
+    const {open} = this.state;
+
+    if (className && open) {
+      className += ` ${className}--open`;
+    }
 
     return (
       <div className={className} style={this._getStyle()}>
